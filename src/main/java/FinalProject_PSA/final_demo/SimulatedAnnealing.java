@@ -8,10 +8,10 @@ import java.util.Random;
 public class SimulatedAnnealing {
 	
 	static List<Integer> optimizeWithSimulatedAnnealing(List<Integer> tour, double[][] distanceMatrix) {
-        double T = 1000.0;
-        double coolingRate = 0.9995;
+		double T = 1.0;
+		double coolingRate = 0.99995;
         double absoluteTemperature = 1e-8;
-        int maxIterations = 100000;
+        int maxIterations = 1000000;
         Random random = new Random();
     
         List<Integer> currentSolution = new ArrayList<>(tour);

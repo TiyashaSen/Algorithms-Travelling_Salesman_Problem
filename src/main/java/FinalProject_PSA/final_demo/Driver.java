@@ -195,7 +195,7 @@ public class Driver {
         //System.out.println("the total cost of tsp"+ totalCost);
         //System.out.println("the total cost of tsp"+ totalCost);
         //        System.out.println("the total cost of tsp"+ totalCost);
-        System.out.println("the total cost of tsp"+ totalCost *1000);
+        System.out.println("the total cost of tsp"+ totalCost);
         //        System.out.println("Tour List"+ tourList);
         return tourList;
     }
