@@ -1,6 +1,6 @@
 package FinalProject_PSA.final_demo;
 
-public  class CrimePoint {
+public class CrimePoint {
     private final String crimeID;
     private final double longitude;
     private final double latitude;

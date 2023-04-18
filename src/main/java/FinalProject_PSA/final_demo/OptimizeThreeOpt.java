@@ -56,6 +56,7 @@ public class OptimizeThreeOpt {
 	                iter++;
 	            }
 	        }
+	        System.out.println("the tour to be returned"+tour);
 	        return tour;
 	    }
 	  

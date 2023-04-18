@@ -33,12 +33,13 @@ public class AntOptmization {
 	        double bestCost = tourLength(tour, distanceMatrix);
 
 	        for (int iteration = 0; iteration < maxIterations; iteration++) {
+	        	 System.out.println("LOOP 1" + iteration);
 	            List<List<Integer>> solutions = new ArrayList<>();
 	            for (int ant = 0; ant < numberOfAnts; ant++) {
-	                System.out.println("Step1" + ant);
+	                System.out.println("LOOP 2" + ant);
 	                List<Integer> currentTour = buildAntTour(distanceMatrix.length, pheromoneMatrix, visibilityMatrix,
 	                        alpha, beta);
-	                // System.out.println("the current tour -------" + currentTour);
+	                 System.out.println("the current tour -------");
 	                currentTour.add(currentTour.get(0)); // complete the cycle
 	                solutions.add(currentTour);
 
@@ -68,7 +69,7 @@ public class AntOptmization {
 	                    pheromoneMatrix[cityB][cityA] += 1 / currentCost;
 	                }
 	            }
-	            // System.out.println("looping");
+	            System.out.println("out of loop 1");
 	        }
 	        // System.out.println("the best tour" + bestTour);
 	        return bestTour;
@@ -113,7 +114,7 @@ public class AntOptmization {
 	                currentCity = nextCity;
 	            }
 	        }
-	        System.out.println("HERE3");
+	       // System.out.println("HERE3");
 
 	        return tour;
 	    }
