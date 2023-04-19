@@ -19,25 +19,10 @@ public class OptimizeThreeOptTest {
 	public void testTourLength() {
 		double[][] distanceMatrix = {
 
-				{ 0, 1, 2 }, { 1, 0, 1 }, { 2, 1, 0 }
+        double length = OptimizeThreeOpt.tourLength(tour, distanceMatrix);
 
-		};
-		List<Integer> tour = Arrays.asList(0, 1, 2);
-		double length = OptimizeThreeOpt.tourLength(tour, distanceMatrix);
-		assertEquals(4.0, length);
-	}
-
-	private boolean isValidTour(List<Integer> optimizedTour, List<Integer> originalTour) {
-		List<Integer> originalCopy = new ArrayList<>(originalTour);
-		for (Integer city : optimizedTour) {
-			if (originalCopy.contains(city)) {
-				originalCopy.remove(city);
-			} else {
-				return false;
-			}
-		}
-		return originalCopy.isEmpty();
-	}
+        assertEquals(4.0, length);
+    }
 
 	@Test
 	void verifyThreeOpt() {

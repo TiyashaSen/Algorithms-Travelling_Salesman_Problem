@@ -41,7 +41,13 @@ public class Driver {
         graph.setAttribute("layout.algorithm", "grid");
         graph.addAttribute("ui.quality");
 
-        Set < Integer > addedNodes = new HashSet < > ();
+        Set < Integer > addedNodes = new HashSet<> ();
+
+        double minLatitude = crimePoints.stream().mapToDouble(CrimePoint::getLatitude).min().orElse(0);
+        double maxLatitude = crimePoints.stream().mapToDouble(CrimePoint::getLatitude).max().orElse(0);
+        double minLongitude = crimePoints.stream().mapToDouble(CrimePoint::getLongitude).min().orElse(0);
+        double maxLongitude = crimePoints.stream().mapToDouble(CrimePoint::getLongitude).max().orElse(0);
+
         for (int i = 0; i < tour.size(); i++) {
             if (!addedNodes.contains(tour.get(i))) {
                 CrimePoint crimePoint = crimePoints.get(tour.get(i));
@@ -176,7 +182,29 @@ public class Driver {
                 added[i] = true;
             }
         }
+        
+      
 
+
+
+
+
+
+        
+//
+//        List<Integer> cycle = new ArrayList<>();
+//        int start = 0;
+//        while (cycle.size() < n) {
+//            cycle.add(start);
+//            visited[start] = true;
+//            int next = nearestNeighbor[start];
+//            while (visited[next]) {
+//                next = nearestNeighbor[next];
+//            }
+//            start = next;
+//        }
+//        cycle.add(start); // Add starting vertex to complete cycle
+//        System.out.println("the cycle"+cycle);
         // Add the starting node to complete the cycle
 
         double eulerianTourCost = tourLength(eulerianTour, distanceMatrix);
@@ -188,13 +216,13 @@ public class Driver {
         }
         else if (algoType == "3opt") {
         	System.out.println("hitting here");
-            tourList = OptimizeThreeOpt.optimizeThreeOpt(tspSolution, distanceMatrix, 1000);
+            tourList = OptimizeThreeOpt.optimizeThreeOpt(tspSolution, distanceMatrix);
         } else if (algoType == "randomSwapping") {
             tourList = OptimizeRandomSwapping.randomSwapOptimization(tspSolution, distanceMatrix, 1000);
         } else if (algoType == "simulatedAnnealing") {
             tourList = SimulatedAnnealing.optimizeWithSimulatedAnnealing(tspSolution, distanceMatrix);
 
-        } else if (algoType == "antColony") {
+        } else if (algoType == "antColony") { 
             tourList = AntOptmization.optimizeWithAntColony(tspSolution, distanceMatrix);
         }
         //double totalCost = tourLength(tourListSa, distanceMatrix); 
@@ -204,7 +232,7 @@ public class Driver {
         //System.out.println("the total cost of tsp"+ totalCost);
         //System.out.println("the total cost of tsp"+ totalCost);
         //        System.out.println("the total cost of tsp"+ totalCost);
-        System.out.println("the total cost of tsp"+ totalCost);
+        System.out.println("the total cost of tsp"+ totalCost * 1000);
         //        System.out.println("Tour List"+ tourList);
         return tourList;
     }

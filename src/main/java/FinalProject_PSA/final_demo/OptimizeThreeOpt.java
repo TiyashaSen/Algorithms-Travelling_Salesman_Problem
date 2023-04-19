@@ -5,68 +5,99 @@ import java.util.List;
 
 public class OptimizeThreeOpt {
 	
-	  static List<Integer> optimizeThreeOpt(List<Integer> tour, double[][] distanceMatrix, int MAX_ITERATIONS) {
-	        int n = tour.size();
-	        int iter = 0;
-	        double MIN_IMPROVEMENT = 1e-6;
-	        while (iter < MAX_ITERATIONS) {
-	            double oldLength = tourLength(tour, distanceMatrix);
-	            double bestDelta = MIN_IMPROVEMENT;
-	            int bestI = -1, bestJ = -1, bestK = -1;
+	public static List<Integer> optimizeThreeOpt(List<Integer> tour, double[][] dist) {
+	    int n = tour.size();
+	    boolean innerImproved = false;
+	    boolean improved = true;
+	    int counter = 0;
+	    while (improved) {
+	        improved = false;
+	        for (int i = 0; i < n - 2; i++) {
+	            for (int j = i + 2; j < n - 1; j++) {
+	                for (int k = j + 2; k < n; k++) {
+	                    List<Integer> newTour = reverse(tour, i + 1, j, j + 1, k);
+	                    int newDist = calculateDistance(newTour, dist);
 
-	            for (int i = 0; i < n - 2; i++) {
-	                for (int j = i + 1; j < n - 1; j++) {
-	                    for (int k = j + 1; k < n; k++) {
-	                        double delta = (distanceMatrix[tour.get(i)][tour.get(j)]
-	                                + distanceMatrix[tour.get(j)][tour.get(k)]
-	                                + distanceMatrix[tour.get(k)][tour.get((i + 1) % n)]) -
-	                                (distanceMatrix[tour.get(i)][tour.get((i + 1) % n)]
-	                                        + distanceMatrix[tour.get(j)][tour.get((j + 1) % n)]
-	                                        + distanceMatrix[tour.get(k)][tour.get((k + 1) % n)]);
-
-	                        if (delta < bestDelta) {
-	                            bestDelta = delta;
-	                            bestI = i;
-	                            bestJ = j;
-	                            bestK = k;
-	                        }
+	                    if (newDist < calculateDistance(tour, dist)) {
+	                        tour = newTour;
+	                        improved = true;
+	                        innerImproved = true;
 	                    }
 	                }
 	            }
-
-	            if (bestDelta < 0) {
-	                List<Integer> newTour = new ArrayList<>(n);
-	                for (int a = 0; a <= bestI; a++) {
-	                    newTour.add(tour.get(a));
-	                }
-	                for (int a = bestJ; a > bestI; a--) {
-	                    newTour.add(tour.get(a));
-	                }
-	                for (int a = bestK; a > bestJ; a--) {
-	                    newTour.add(tour.get(a));
-	                }
-	                for (int a = bestK + 1; a < n; a++) {
-	                    newTour.add(tour.get(a));
-	                }
-	                tour.clear();
-	                tour.addAll(newTour);
-	                iter++;
-
-	            } else {
-	                iter++;
-	            }
+	            System.out.println("the outer for loop");
 	        }
-	        System.out.println("the tour to be returned"+tour);
-	        return tour;
-	    }
-	  
-	   static double tourLength(List<Integer> tour, double[][] distanceMatrix) {
-	        double length = 0;
-	        for (int i = 1; i < tour.size(); i++) {
-	            length += distanceMatrix[tour.get(i - 1)][tour.get(i)];
+	        if (!innerImproved) {
+	            counter++;
 	        }
-	        length += distanceMatrix[tour.get(tour.size() - 1)][tour.get(0)];
-	        return length;
+	        if (counter >= n) {
+	            break;
+	        }
+	        improved = improved || innerImproved;
+	        innerImproved = false;
 	    }
+	    System.out.println("the tour"+tour);
+	    return tour;
+	}
+
+
+	private static List<Integer> reverse(List<Integer> tour, int i, int j, int k, int l) {
+	    List<Integer> newTour = new ArrayList<>(tour);
+
+	    // Reverse the sequence from i+1 to j
+	    int x = i + 1, y = j;
+	    while (x < y) {
+	        int temp = newTour.get(x);
+	        newTour.set(x, newTour.get(y));
+	        newTour.set(y, temp);
+	        x++;
+	        y--;
+	    }
+
+	    // Reverse the sequence from j+1 to k
+	    x = j + 1; y = k;
+	    while (x < y) {
+	        int temp = newTour.get(x);
+	        newTour.set(x, newTour.get(y));
+	        newTour.set(y, temp);
+	        x++;
+	        y--;
+	    }
+
+	    // Reverse the sequence from k+1 to l
+	    x = k + 1; y = l;
+	    while (x < y) {
+	        int temp = newTour.get(x);
+	        newTour.set(x, newTour.get(y));
+	        newTour.set(y, temp);
+	        x++;
+	        y--;
+	    }
+
+	    return newTour;
+	}
+
+	private static int calculateDistance(List<Integer> tour, double[][] dist) {
+	    int distance = 0;
+	    for (int i = 0; i < tour.size() - 1; i++) {
+	        distance += dist[tour.get(i)][tour.get(i + 1)];
+	    }
+	    distance += dist[tour.get(tour.size() - 1)][tour.get(0)];
+	    return distance;
+	}
+	
+static double tourLength(List<Integer> tour, double[][] distanceMatrix) {
+double length = 0;
+for (int i = 1; i < tour.size(); i++) {
+
+length += distanceMatrix[tour.get(i - 1)][tour.get(i)];
+
+}
+
+ length += distanceMatrix[tour.get(tour.size() - 1)][tour.get(0)];
+
+return length;
+}
+
 
 }
