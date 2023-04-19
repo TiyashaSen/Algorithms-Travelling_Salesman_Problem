@@ -29,8 +29,10 @@ Usage
 2. Run the Driver class with the desired optimization algorithm:
    `java Psademo.java`
 
+3. Please click on the below buttons and wait for the algorithm to run!!!!!!!
 
 
+![](./runDemo.jpg)
 
 
 ## Main Functionality
