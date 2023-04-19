@@ -32,7 +32,7 @@ Usage
 3. Please click on the below buttons and wait for the algorithm to run!!!!!!!
 
 
-![](./runDemo.jpg)
+![](./runDemo.png)
 
 
 ## Main Functionality
