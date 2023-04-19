@@ -21,50 +21,60 @@ public class PsaDemo {
         // Create a new JPanel with a BorderLayout
         JPanel panel = new JPanel(new BorderLayout());
         
-        panel.setPreferredSize(new Dimension(700, 500));
+        panel.setPreferredSize(new Dimension(700, 200));
+        panel.setBackground(Color.CYAN);
 
         // Create four JButton instances
-        JButton button1 = new JButton("Eulerian Tour");
+        JButton button1 = new JButton("ChristoFides");
+        button1.setBackground(Color.RED);
+        button1.setOpaque(true);
+        button1.setBorderPainted(false);
         JButton button2 = new JButton("Simulated Annealing");
+        button2.setBackground(Color.YELLOW);
+        button2.setOpaque(true);
+        button2.setBorderPainted(false);
         JButton button3 = new JButton("Ant Colony");
+        button3.setBackground(Color.GREEN);
+        button3.setOpaque(true);
+        button3.setBorderPainted(false);
         JButton button4 = new JButton("Random Swapping");
+        button4.setBackground(Color.ORANGE);
+        button4.setOpaque(true);
+        button4.setBorderPainted(false);
         JButton button5 = new JButton("3 OPT");
+        button5.setBackground(Color.PINK);
+        button5.setOpaque(true);
+        button5.setBorderPainted(false);
+        // Add event handlers for the buttons
+        Driver d = new Driver();
         
-        // Add event handlers for the buttons
-//        button1.addActionListener((ActionEvent e) -> {
-//            System.out.println("Button 1 clicked");
-//            Driver d = new Driver();
-//    		d.travellingSalesman("3opt");
-//        });
-
-        // Add event handlers for the buttons
         button1.addActionListener((ActionEvent e) -> {
             System.out.println("Button 1 clicked");
-            Driver d = new Driver();
-    		d.travellingSalesman("eulerianTour");
+//            Driver d = new Driver();
+    		d.travellingSalesman("christofides");
         });
 
         button2.addActionListener((ActionEvent e) -> {
             System.out.println("Button 2 clicked");
-            Driver d = new Driver();
+//            Driver d = new Driver();
     		d.travellingSalesman("simulatedAnnealing");
         });
 
         button3.addActionListener((ActionEvent e) -> {
             System.out.println("Button 3 clicked");
-            Driver d = new Driver();
+//            Driver d = new Driver();
     		d.travellingSalesman("antColony");
         });
 
         button4.addActionListener((ActionEvent e) -> {
             System.out.println("Button 4 clicked");
-            Driver d = new Driver();
+//            Driver d = new Driver();
     		d.travellingSalesman("randomSwapping");
         });
         
         button5.addActionListener((ActionEvent e) -> {
             System.out.println("Button 5 clicked");
-            Driver d = new Driver();
+//            Driver d = new Driver();
         	d.travellingSalesman("3opt");
         });
 

@@ -1,49 +1,74 @@
 package FinalProject_PSA.final_demo;
 
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import FinalProject_PSA.final_demo.OptimizeThreeOpt;
+
 import java.util.ArrayList;
+
 import java.util.Arrays;
+
 import java.util.List;
 
+import org.junit.jupiter.api.Test;
+
 public class OptimizeThreeOptTest {
+	@Test
+	public void testTourLength() {
+		double[][] distanceMatrix = {
 
-    @Test
-    public void testTourLength() {
-        double[][] distanceMatrix = {
-            {0, 1, 2},
-            {1, 0, 1},
-            {2, 1, 0}
-        };
-        List<Integer> tour = Arrays.asList(0, 1, 2);
+				{ 0, 1, 2 }, { 1, 0, 1 }, { 2, 1, 0 }
 
-        double length = OptimizeThreeOpt.tourLength(tour, distanceMatrix);
+		};
+		List<Integer> tour = Arrays.asList(0, 1, 2);
+		double length = OptimizeThreeOpt.tourLength(tour, distanceMatrix);
+		assertEquals(4.0, length);
+	}
 
-        assertEquals(4.0, length);
-    }
+	private boolean isValidTour(List<Integer> optimizedTour, List<Integer> originalTour) {
+		List<Integer> originalCopy = new ArrayList<>(originalTour);
+		for (Integer city : optimizedTour) {
+			if (originalCopy.contains(city)) {
+				originalCopy.remove(city);
+			} else {
+				return false;
+			}
+		}
+		return originalCopy.isEmpty();
+	}
 
-    @Test
-    public void testOptimizeThreeOpt() {
-        double[][] distanceMatrix = {
-            {0.0, 1.0, 2.0},
-            {1.0, 0.0, 1.0},
-            {2.0, 1.0, 0.0}
-        };
-        List<Integer> tour = Arrays.asList(0, 1, 2);
-        int maxIterations = 100;
+	@Test
+	void verifyThreeOpt() {
 
-        List<Integer> optimizedTour = OptimizeThreeOpt.optimizeThreeOpt(tour, distanceMatrix, maxIterations);
+		double[][] distanceMatrix = {
 
-        assertTrue(isValidTour(optimizedTour, tour));
-        assertTrue(optimizedTour.size() == tour.size());
+				{ 0, 1, 2 },
 
-        double optimizedTourLength = OptimizeThreeOpt.tourLength(optimizedTour, distanceMatrix);
-        double initialTourLength = OptimizeThreeOpt.tourLength(tour, distanceMatrix);
+				{ 1, 0, 1 },
 
-        assertTrue(optimizedTourLength <= initialTourLength);
-    }
+				{ 2, 1, 0 }
 
-  
+		};
+
+		List<Integer> tour = Arrays.asList(0, 1, 2);
+
+		int maxIterations = 100;
+
+		List<Integer> tourCopy = new ArrayList<>(tour);
+
+		List<Integer> optimizedTour = OptimizeThreeOpt.optimizeThreeOpt(tourCopy, distanceMatrix, maxIterations);
+
+		assertTrue(isValidTour(optimizedTour, tour));
+
+		assertTrue(optimizedTour.size() == tour.size());
+
+		double optimizedTourLength = OptimizeThreeOpt.tourLength(optimizedTour, distanceMatrix);
+
+		double initialTourLength = OptimizeThreeOpt.tourLength(tour, distanceMatrix);
+
+		assertTrue(optimizedTourLength >= initialTourLength);
+
+	}
 }

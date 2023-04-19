@@ -1,13 +1,26 @@
 package FinalProject_PSA.final_demo;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.Panel;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.ui.swingViewer.ViewPanel;
+import org.graphstream.ui.view.Viewer;
+import java.util.Random;
+
+
 
 public class Driver {
     static String algoType;
@@ -23,28 +36,22 @@ public class Driver {
 
 
         Graph graph = new SingleGraph("TSP Tour");
+        GridLayout layout = new GridLayout();
+     // Set the grid layout algorithm
+        graph.setAttribute("layout.algorithm", "grid");
         graph.addAttribute("ui.quality");
-        graph.addAttribute("ui.antialias");
 
         Set < Integer > addedNodes = new HashSet < > ();
-
-        double minLatitude = crimePoints.stream().mapToDouble(CrimePoint::getLatitude).min().orElse(0);
-        double maxLatitude = crimePoints.stream().mapToDouble(CrimePoint::getLatitude).max().orElse(0);
-        double minLongitude = crimePoints.stream().mapToDouble(CrimePoint::getLongitude).min().orElse(0);
-        double maxLongitude = crimePoints.stream().mapToDouble(CrimePoint::getLongitude).max().orElse(0);
-
         for (int i = 0; i < tour.size(); i++) {
             if (!addedNodes.contains(tour.get(i))) {
                 CrimePoint crimePoint = crimePoints.get(tour.get(i));
                 Node node = graph.addNode(String.valueOf(tour.get(i)));
                 node.setAttribute("ui.label", String.valueOf(tour.get(i)));
-
-                // Normalize latitude and longitude values to fit within the range [-1, 1]
-                double normalizedLatitude = 3 * (crimePoint.getLatitude() - minLatitude) / (maxLatitude - minLatitude) - 1;
-                double normalizedLongitude = 3 * (crimePoint.getLongitude() - minLongitude) / (maxLongitude - minLongitude) - 1;
-
-                node.setAttribute("xy", normalizedLatitude, normalizedLongitude);
+               // node.setAttribute("xy", normalizedLatitude, normalizedLongitude);
+                node.addAttribute("x", crimePoint.getLatitude() + Math.random() * 100 + 1 );
+                node.addAttribute("y", crimePoint.getLongitude() + Math.random() * 100 + 1 );
                 node.setAttribute("layout.frozen");
+                node.addAttribute("layout.weight", 1);
                 addedNodes.add(tour.get(i));
             }
         }
@@ -53,13 +60,13 @@ public class Driver {
         graph.display();
 
         graph.setAttribute("ui.stylesheet", "node{\n" +
-            " size: 5px, 5px;\n" +
-            " fill-color: black;\n" +
+            " size: 2px, 3px;\n" +
+            " fill-color: red;\n" +
             " text-mode: normal; \n" +
             "}" +
             "edge.highlight{\n" +
             " fill-color: red;\n" +
-            " size: 2.5px, 2.5px;" +
+            " size: 2px, 2px;" +
             "}"
         );
         System.out.println("drawing the graph");
@@ -69,7 +76,7 @@ public class Driver {
                     graph.addEdge(String.format("%d-%d", tour.get(i), tour.get(i + 1)), String.valueOf(tour.get(i)), String.valueOf(tour.get(i + 1)));
 
                     try {
-                        Thread.sleep(1000); // 1000 milliseconds = 1 second
+                        Thread.sleep(100); // 1000 milliseconds = 1 second
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -176,8 +183,10 @@ public class Driver {
         System.out.println("the eulerian tour cost" + eulerianTourCost);
         tspSolution.add(tspSolution.get(0));
         List < Integer > tourList = new ArrayList < > ();
-
-        if (algoType == "3opt") {
+        if(algoType =="christofides") {
+        	tourList = eulerianTour;
+        }
+        else if (algoType == "3opt") {
         	System.out.println("hitting here");
             tourList = OptimizeThreeOpt.optimizeThreeOpt(tspSolution, distanceMatrix, 1000);
         } else if (algoType == "randomSwapping") {

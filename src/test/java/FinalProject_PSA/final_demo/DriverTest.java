@@ -16,7 +16,7 @@ public class DriverTest {
 
     @BeforeAll
     public static void setUp() {
-        crimePoints = CrimeDataProcessor.readCrimeDataFromFile("resources/crimeSample.csv");
+        crimePoints = CrimeDataProcessor.readCrimeDataFromFile("resources/crimeSampleLarge.csv");
     }
 
     @Test
