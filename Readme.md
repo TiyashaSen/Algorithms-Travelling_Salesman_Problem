@@ -52,6 +52,10 @@ minimumWeightPerfectMatching(double[][] distanceMatrix, List<Integer> oddVertice
 tourLength(List<Integer> tour, double[][] distanceMatrix): Computes the length of a given TSP tour using a distance matrix.
 
 
+## Flowchart
+
+![](./flowChart.jpg)
+
 
 ### Additional Notes
 
